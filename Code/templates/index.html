@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BPJS Classification</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <!-- My Style -->
+    <style>
+      :root {
+        --primary: #FFEB3B;
+        --bg: #4CAF50;
+      }
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        outline: none;
+        border: none;
+        text-decoration: none;
+      }
+      
+      html {
+        scroll-behavior: smooth;
+      }
+      
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--bg);
+        color: #fff;
+      }
+      
+      /* Navbar */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.4rem 7%;
+        background-color: rgba(1, 1, 1, 0.8);
+        border-bottom: 1px solid #513c28;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 9999;
+      }
+      
+      .navbar .navbar-logo {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #fff;
+        font-style: italic;
+      }
+      
+      .navbar .navbar-logo span {
+        color: var(--primary);
+      }
+      
+      .navbar .navbar-nav a {
+        color: #fff;
+        display: inline-block;
+        font-size: 1.3rem;
+        margin: 0 1rem;
+      }
+      
+      .navbar .navbar-nav a:hover {
+        color: var(--primary);
+      }
+      
+      .navbar .navbar-nav a::after {
+        content: "";
+        display: block;
+        padding-bottom: 0.5rem;
+        border-bottom: 0.1rem solid var(--primary);
+        transform: scaleX(0);
+        transition: 0.2s linear;
+      }
+      
+      .navbar .navbar-nav a:hover::after {
+        transform: scaleX(1);
+      }
+      
+      .navbar .navbar-extra a {
+        color: #fff;
+        margin: 0 0.5rem;
+      }
+      
+      .navbar .navbar-extra a:hover {
+        color: var(--primary);
+      }
+      
+      #hamburger-system {
+        display: none;
+      }
+      
+      /* Navbar search form */
+      .navbar .search-form {
+        position: absolute;
+        top: 100%;
+        right: 7%;
+        background-color: #fff;
+        width: 50rem;
+        height: 5rem;
+        display: flex;
+        align-items: center;
+        transform: scaleY(0);
+        transform-origin: top;
+        transition: 0.3s;
+      }
+      
+      .navbar .search-form.active {
+        transform: scaleY(1);
+      }
+      
+      .navbar .search-form input {
+        height: 100%;
+        width: 100%;
+        font-size: 1.6rem;
+        color: var(--bg);
+        padding: 1rem;
+      }
+      
+      .navbar .search-form label {
+        cursor: pointer;
+        font-size: 2rem;
+        margin-right: 1.5rem;
+        color: var(--bg);
+      }
+      
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        background-image: url("../static/img/bg-hd.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+      }
+      
+      .hero::after {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 30%;
+        bottom: 0;
+        background: linear-gradient(
+          0deg,
+          rgba(1, 1, 3, 1) 8%,
+          rgba(255, 255, 255, 0) 50%
+        );
+      }
+      
+      .hero .content {
+        padding: 1.4rem 7%;
+        max-width: 60rem;
+      }
+      
+      .hero .content h1 {
+        font-size: 4em;
+        columns: #fff;
+        text-shadow: 1px 1px 3px rgba(1, 1, 3, 0.5);
+        line-height: 1.2;
+      }
+      
+      .hero .content h1 span {
+        color: var(--primary);
+      }
+      
+      .hero .content p {
+        font-size: 1.6rem;
+        margin-top: 1rem;
+        line-height: 1.4;
+        font-weight: 500;
+        color: #fff;
+      }
+      
+      .hero .content .cta {
+        margin-top: 1rem;
+        display: inline-block;
+        padding: 1rem 3rem;
+        font-size: 1.4rem;
+        color: #0f0c0c;
+        background-color: var(--primary);
+        border-radius: 0.5rem;
+        box-shadow: 1px 1px 3px rgba(1, 1, 3, 0.5);
+      }
+      
+      /* Metode Section */
+      .metode,
+      .system,
+      .Team,
+      .contact {
+        padding: 8rem 7% 1.4rem;
+      }
+      
+      .metode h2,
+      .system h2,
+      .Team h2,
+      .contact h2 {
+        text-align: center;
+        font-size: 2.6rem;
+        margin-bottom: 3rem;
+      }
+      
+      .metode h2 span,
+      .system h2 span,
+      .Team h2 span,
+      .contact h2 span {
+        color: var(--primary);
+      }
+      
+      .metode .row {
+        display: flex;
+      }
+      
+      .metode .row .metode-img {
+        flex: 1 1 45rem;
+      }
+      
+      .metode .row .metode-img img {
+        width: 100%;
+      }
+      
+      .metode .row .content {
+        flex: 1 1 35rem;
+        padding: 0 1rem;
+      }
+      
+      .metode .row .content h3 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+      }
+      
+      .metode .row .content p {
+        margin-bottom: 0.8rem;
+        font-size: 1.4rem;
+        font-weight: 100;
+        line-height: 1.6;
+      }
+      
+      /* system Section */
+      .system h2,
+      .Team h2,
+      .contact h2 {
+        margin-bottom: 0.5rem;
+        color: #fff;
+      }
+      
+      .system p,
+      .Team p,
+      .contact p {
+        text-align: center;
+        max-width: 30rem;
+        margin: auto;
+        font-weight: 500;
+        line-height: 1.6;
+      }
+      
+      .system .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 5rem;
+        justify-content: center;
+      }
+      
+      .system form .input-group {
+        display: flex;
+        align-items: center;
+        margin-top: 2rem;
+        background-color: var(--bg);
+        border: 1px solid #eee;
+        padding-left: 1.5rem;
+      }
+      
+      .system form .input-group input {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1rem;
+        background: none;
+        color: #fff;
+      }
+      
+      .system .content .cta {
+        margin-top: 1rem;
+        display: inline-block;
+        padding: 1rem 3rem;
+        font-size: 1.4rem;
+        color: #0f0c0c;
+        background-color: var(--primary);
+        border-radius: 0.5rem;
+        box-shadow: 1px 1px 3px rgba(1, 1, 3, 0.5);
+      }
+      
+      .system form .btn {
+        margin-top: 3rem;
+        display: inline-block;
+        padding: 1rem 3rem;
+        font-size: 1.7rem;
+        color: #fff;
+        background-color: var(--primary);
+        cursor: pointer;
+      }
+
+      .system .result h3 {
+        align-text: center;
+        font-size: 1.8rem;
+      }
+      
+      /* Team Section */
+      .Team .row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+        gap: 1.5rem;
+        margin-top: 4rem;
+      }
+      
+      .Team .team-card {
+        text-align: center;
+        border: 1px solid #666;
+        padding: 20px;
+        width: 350px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .Team .team-image img {
+        height: 25rem;
+      }
+      
+      .Team .team-content h3 {
+        font-size: 2rem;
+      }
+      
+      .Team .team-content p {
+        font-size: 1.5rem;
+        color: var(--primary);
+      }
+      
+      .Team .team-price {
+        font-size: 1.3rem;
+        font-weight: bold;
+      }
+      
+      /* Footer */
+      footer {
+        background-color: var(--primary);
+        text-align: center;
+        padding: 1rem 0 3rem;
+        margin-top: 3rem;
+      }
+      
+      footer .socials {
+        padding: 1rem 0;
+      }
+      
+      footer .socials a {
+        color: #fff;
+        margin: 1rem;
+      }
+      
+      footer .socials a:hover,
+      footer .links a:hover {
+        color: var(--bg);
+      }
+      
+      footer .links {
+        margin-bottom: 1.4rem;
+      }
+      
+      footer .links a {
+        color: #fff;
+        padding: 0.7rem 1rem;
+      }
+      
+      footer .credit {
+        font-size: 0.8rem;
+      }
+      
+      footer .credit a {
+        color: var(--bg);
+        font-weight: 700;
+      }
+      
+      /* Laptop */
+      @media (max-width: 1366px) {
+        html {
+          font-size: 75%;
+        }
+      }
+      
+      /* Tablet */
+      @media (max-width: 758px) {
+        html {
+          font-size: 62.5%;
+        }
+        #hamburger-system {
+          display: inline-block;
+        }
+      
+        .navbar .navbar-nav {
+          position: absolute;
+          top: 100%;
+          right: -100%;
+          background-color: #fff;
+          width: 30rem;
+          height: 100vh;
+          transition: 0.3s;
+        }
+      
+        .navbar .navbar-nav.active {
+          right: 0;
+        }
+      
+        .navbar .navbar-nav a {
+          color: var(--bg);
+          display: block;
+          margin: 1.5rem;
+          padding: 0.5rem;
+          font-size: 2rem;
+        }
+      
+        .navbar .navbar-nav a::after {
+          transform-origin: 0 0;
+        }
+      
+        .navbar .navbar-nav a:hover:after {
+          transform: scaleX(0.3);
+        }
+      
+        .navbar .search-form {
+          width: 90%;
+          right: 2rem;
+        }
+      
+        .metode .row {
+          flex-wrap: wrap;
+        }
+      
+        .metode .row .metode-img img {
+          height: 24rem;
+          object-fit: cover;
+          object-position: center;
+        }
+      
+        .metode .row .content {
+          padding: 0;
+        }
+      
+        .metode .row .content h3 {
+          margin-top: 1rem;
+          font-size: 1.6rem;
+        }
+      
+        .system p {
+          font-size: 1.2rem;
+        }
+        .contact .row {
+          flex-wrap: wrap;
+        }
+      
+        .contact .row .map {
+          height: 30rem;
+        }
+      
+        .contact .row form {
+          padding-top: 0;
+        }
+      
+        .modal-content {
+          flex-wrap: wrap;
+        }
+      }
+      
+      /* Mobile Phone */
+      @media (max-width: 450px) {
+        html {
+          font-size: 55%;
+        }
+      }
+      
+    </style>
+  </head>
+  <body>
+    <!-- Navbar start -->
+    <nav class="navbar">
+      <a href="#" class="navbar-logo">Data Mining<span> Project</span>.</a>
+
+      <div class="navbar-nav">
+        <a href="#home">Home</a>
+        <a href="#metode">Metode</a>
+        <a href="#system">System</a>
+        <a href="#Team">Team</a>
+      </div>
+    </nav>
+    <!-- Navbar end -->
+
+    <!-- Hero Section start -->
+    <section class="hero" id="home">
+      <main class="content">
+        <h1>BPJS Classification <span>System</span></h1>
+        <p>
+          Analisis dan klasifikasi pada data fasilitas pelayanan kesehatan peserta BPJS yang mengalami penyakit Tuberkulosis (TB).
+        </p>
+        <a href="#system" class="cta">Check Now</a>
+      </main>
+    </section>
+    <!-- Hero Section end -->
+
+    <!-- Metode Section start -->
+    <section id="metode" class="metode">
+      <h2><span>Metode</span> Kami</h2>
+
+      <div class="row">
+        <!-- <div class="metode-img">
+          <img src="img/tentang-kami.jpg" alt="Tentang Kami" />
+        </div> -->
+        <div class="content">
+          <h3>Artificial Neural Network</h3>
+          <p>
+            Artificial Neural Network adalah salah satu metode Deep Learning yang bekerja seperti jaringan saraf manusia. 
+            Kategori ANN didasarkan pada metode supervised dan unsupervised. 
+            Bentuk sederhana dari ANN adalah persepsi yang terdiri dari satu dengan dua masukan dan satu keluaran. 
+            Persepsi digunakan untuk klasifikasi data yang diubah menjadi dua kelas terpisah.
+          </p>
+          <h3>Arsitektur dari ANN adalah sebagai berikut:</h3> 
+            <p>a. Lapisan Input (Input Layer): Menerima nilai input</p>
+            <p>b. Lapisan tersembunyi (Hidden Layer): Satu set neuron antara lapisan input dan output.</p>
+            <p>c. Lapisan Output (Output layer): Memiliki satu neuron dan outputnya berkisar antara 0 dan 1 atau lebih besar dari 0 dan lebih kecil dari 1.</p>
+        </div>
+      </div>
+    </section>
+    <!-- metode Section end -->
+
+    <!-- System Section start -->
+    <section id="system" class="system">
+      <h2>BPJS Classification <span>using ANN</span></h2>
+      <p>
+        Fill-up the form to predict
+      </p>
+
+      <form action="/predict"  method="post">
+        <div class="input-group">
+          <input type="text" id="pstv01" name="pstv10" required="required"  placeholder="Nomor Peserta *" 
+            onFocus="if (this.value == 'Nomor Peserta') this.value = '';" 
+            onBlur="if (this.value == '') this.value = 'Nomor Peserta';" />
+        </div>
+        <div class="input-group">
+          <input type="text" id="pstv10" name="pstv10" required="required" placeholder="Kabupaten/Kota Tempat Tinggal Peserta  *" 
+            onFocus="if (this.value == 'Kabupaten/Kota Tempat Tinggal Peserta ') this.value = '';" 
+            onBlur="if (this.value == '') this.value = 'Kabupaten/Kota Tempat Tinggal Peserta ';" />
+        </div>
+        <div class="input-group">
+          <input type="text" id="pstv14" name="pstv14" required="required" placeholder="Kabupaten/Kota Fasilitas Kesehatan Peserta Terdaftar *" 
+            onFocus="if (this.value == 'Kabupaten/Kota Fasilitas Kesehatan Peserta Terdaftar') this.value = '';" 
+            onBlur="if (this.value == '') this.value = 'Kabupaten/Kota Fasilitas Kesehatan Peserta Terdaftar';" />
+        </div>
+        <div class="input-group">
+          <input type="text" id="pnk10" name="pnk10" required="required" placeholder="Tipe faskes *" 
+            onFocus="if (this.value == 'Tipe faskes ') this.value = '';" 
+            onBlur="if (this.value == '') this.value = 'Tipe faskes ';" />
+        </div>
+        <div class="input-group">
+          <input type="text" id="pnk15" name="pnk15" required="required" placeholder="Nama Diagnosis *" 
+            onFocus="if (this.value == 'Nama Diagnosis') this.value = '';" 
+            onBlur="if (this.value == '') this.value = 'Nama Diagnosis';" />
+        </div>
+        <div class="comment_note">All fields marked with an asterisk (*) are required</div>
+        <button type="submit" class="btn">predict</button>
+          <div class="col-md-7">
+          <hr>
+          <div class="result">
+            <h3>Result: {{finalData}}</h3>
+          </div>
+          </div>
+      </form>
+    </section>
+    <!-- system Section end -->
+
+    <!-- Team Section start -->
+    <section class="Team" id="Team">
+      <h2><span>Our</span> Kami</h2>
+      <p>
+        Kami dari kelompok 4 Project Data Mining yang melakukan 
+        project akhir mata kuliah untuk melakukan klasifikasi case pada data sampel BPJS 2015-2021
+      </p>
+
+      <div class="row">
+        <div class="team-card">
+          <div class="team-image">
+            <img src="./static/img/teams/2.jpg" alt="team 1" />
+          </div>
+          <div class="team-content">
+            <h3>Agnes Veronika Sihombing</h3>
+            <p>12S20022</p>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-image">
+            <img src="./static/img/teams/3.jpg" alt="team 1" />
+          </div>
+          <div class="team-content">
+            <h3>Hanna Dhea Christi Sihombing</h3>
+            <p>12S20044</p>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-image">
+            <img src="./static/img/teams/4.jpg" alt="team 1" />
+          </div>
+          <div class="team-content">
+            <h3>Nadya Dioranta Tambunan</h3>
+            <p>12S20006</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Team Section end -->
+
+    <!-- Footer start -->
+    <footer>
+      <div class="socials">
+        <a href="#"><i data-feather="instagram"></i></a>
+        <a href="#"><i data-feather="twitter"></i></a>
+        <a href="#"><i data-feather="facebook"></i></a>
+      </div>
+      <div class="links">
+        <a href="#home">Home</a>
+        <a href="#metode">Metode</a>
+        <a href="#system">System</a>
+        <a href="#Team">Team</a>
+      </div>
+      <div class="credit">
+        <p>Created by <a href="">kelompok 4</a>. | &copy; 2023</p>
+      </div>
+    </footer>
+    <!-- Footer end -->
+
+    <!-- Feather Icons -->
+    <script>
+      feather.replace();
+    </script>
+
+    <!-- My Javascript -->
+    <script src="js/script.js"></script>
+  </body>
+</html>
